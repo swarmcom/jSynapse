@@ -2,6 +2,7 @@ package org.matrix.jsynapse.controller;
 
 import org.matrix.jsynapse.domain.Room;
 import org.matrix.jsynapse.service.RoomService;
+import org.matrix.jsynapse.service.exception.EntityAlreadyExistsException;
 import org.matrix.jsynapse.service.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,12 @@ public class RoomRestApi {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleRoomNotFound(EntityNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleRoomAlreadyExists(EntityAlreadyExistsException ex) {
         return ex.getMessage();
     }
 }

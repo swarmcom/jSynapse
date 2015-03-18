@@ -4,8 +4,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class Room {
-    @NotNull
-    String id;
 
     @NotNull
     String name;
@@ -16,14 +14,9 @@ public class Room {
     public Room() {
     }
 
-    public Room(String id, String name, String aliasName) {
-        this.id = id;
+    public Room(String name, String aliasName) {
         this.name = name;
         this.aliasName = aliasName;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getName() {
