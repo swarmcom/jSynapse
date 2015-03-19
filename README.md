@@ -19,7 +19,9 @@ Install and start from Docker image:
 jSynapse homeserver accepts requests on port 5555,
 e.g.
 - for creating a room
+
 curl -H "Content-Type: application/json" -d '{"name":"jSynapse first room","aliasName":"my_first_room"}' http://localhost:5555/room
 
 - for retrieving created room by alias:
+
 curl http://localhost:5555/room/my_first_room
