@@ -1,13 +1,16 @@
-FROM centos:centos7                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                             
-MAINTAINER dizzy "george.niculae79@gmail.com"                                                                                                                                                                                                
-                                                                                                                                                                                                                                             
-# get to the current                                                                                                                                                                                                                         
-RUN yum update                                                                                                                                                                                                                               
-                                                                                                                                                                                                                                             
-# install epel                                                                                                                                                                                                                               
-RUN yum install -y epel-release                                                                                                                                                                                                              
-                                                                                                                                                                                                                                             
+FROM centos:centos7
+
+MAINTAINER dizzy "george.niculae79@gmail.com"
+
+ADD . /jSynapse/src/
+WORKDIR /jSynapse/src/
+
+# get to the current
+RUN yum update
+
+# install epel
+RUN yum install -y epel-release
+
 # install and start Redis
 RUN yum install -y redis
 
