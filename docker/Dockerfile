@@ -15,7 +15,7 @@ RUN yum install -y redis
 RUN yum install -y git java-1.7.0-openjdk maven
 
 # let's build jSynapse
-RUN mvn clean install
+RUN cd jSynapse && mvn clean install
 
 EXPOSE 5555:5555
 
