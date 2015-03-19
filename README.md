@@ -8,15 +8,14 @@ Steps to get it running:
 - java -jar target/jSynapse-1.0-SNAPSHOT.jar
 (or import Maven project in IDE of choice and run JSynapseServer class)
 
-jSynapse homeserver accepts requests on port 5555, 
+jSynapse homeserver accepts requests on port 5555,
 e.g.
-- for creating a room 
+- for creating a room
 curl -H "Content-Type: application/json" -d '{"name":"jSynapse first room","aliasName":"my_first_room"}' http://localhost:5555/room
-- for retrieving created room by alias: 
+
+- for retrieving created room by alias:
 curl http://localhost:5555/room/my_first_room
 
-Shooting for building / packaging as:
-- RPM
-- deb
-- docker image
-- Windows .exe
+Install and start from Docker image:
+sudo docker pull dizzy/jsynapse
+sudo docker run -d -p 5555:5555 dizzy/jsynapse:latest

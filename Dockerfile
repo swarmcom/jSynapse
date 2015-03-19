@@ -11,8 +11,9 @@ RUN yum update
 # install epel
 RUN yum install -y epel-release
 
-# install and start Redis
+# install Redis and configure it to run as daemon
 RUN yum install -y redis
+RUN sed -i 's/daemonize no/daemonize yes/' /etc/redis.conf
 
 # install tools for building jSynapse
 RUN yum install -y git java-1.7.0-openjdk maven
@@ -21,8 +22,6 @@ RUN yum install -y git java-1.7.0-openjdk maven
 RUN mvn clean install
 
 EXPOSE 5555:5555
-
-RUN sed -i 's/daemonize no/daemonize yes/' /etc/redis.conf
 
 # start jSynapse server
 CMD /usr/bin/redis-server /etc/redis.conf; \
