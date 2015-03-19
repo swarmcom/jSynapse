@@ -17,5 +17,5 @@ curl -H "Content-Type: application/json" -d '{"name":"jSynapse first room","alia
 curl http://localhost:5555/room/my_first_room
 
 Install and start from Docker image:
-sudo docker pull dizzy/jsynapse
-sudo docker run -d -p 5555:5555 dizzy/jsynapse:latest
+- sudo docker pull dizzy/jsynapse:latest
+- sudo docker run -d -p 5555:5555 dizzy/jsynapse:latest
