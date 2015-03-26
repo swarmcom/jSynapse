@@ -37,7 +37,7 @@ public class Room {
 
     @JsonProperty
     @JsonView(DirectorySummary.class)
-    List<String> servers = new ArrayList<>();
+    List<String> servers = new ArrayList();
 
     public Room() {
     }
