@@ -28,4 +28,9 @@ public class MessageRestApi extends JsynapseApi {
     public void sendMessage(@PathVariable String roomId, @RequestBody @Valid final Message message) {
         messageService.sendMessage(roomId, message);
     }
+
+    @RequestMapping(value = "/rooms/{roomId}/messages", method = GET)
+    public List<Message> getMessages(@PathVariable String roomId) {
+        return messageService.getMessages(roomId);
+    }
 }

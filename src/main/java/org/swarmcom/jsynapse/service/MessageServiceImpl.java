@@ -35,7 +35,12 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Message sendMessage(String roomId, Message message) {
         Room room = roomService.findRoomById(roomId);
-        message.setRoom(room);
+        message.setRoomId(room.getRoomId());
         return messageRepository.save(message);
+    }
+
+    @Override
+    public List<Message> getMessages(String roomId) {
+        return messageRepository.findByRoomId(roomId);
     }
 }

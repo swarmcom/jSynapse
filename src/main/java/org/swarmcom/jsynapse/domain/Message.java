@@ -14,10 +14,31 @@ public class Message {
     @JsonProperty
     String msgtype;
 
-    @DBRef
-    Room room;
+    String roomId;
 
-    public void setRoom(Room room) {
-        this.room = room;
+    String body;
+
+    public String getMsgtype() {
+        return msgtype;
+    }
+
+    public void setMsgtype(String msgtype) {
+        this.msgtype = msgtype;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }
