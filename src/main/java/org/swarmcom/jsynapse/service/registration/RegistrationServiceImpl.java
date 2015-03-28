@@ -4,15 +4,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.swarmcom.jsynapse.domain.Registration.*;
-import org.swarmcom.jsynapse.service.exception.EntityNotFoundException;
 import org.swarmcom.jsynapse.service.exception.InvalidRequestException;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static java.lang.String.format;
 
 @Service
 @Validated
@@ -28,11 +25,11 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public RegistrationFlows getSupportedFlows() {
-        List<RegistrationInfo> schemas = new ArrayList<>();
+        List<RegistrationInfo> flows = new ArrayList<>();
         for (RegistrationProvider provider : getProviders().values()) {
-            schemas.add(provider.getSchema());
+            flows.add(provider.getFlow());
         }
-        return new RegistrationFlows(schemas);
+        return new RegistrationFlows(flows);
     }
 
     @Override

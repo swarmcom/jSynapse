@@ -13,7 +13,7 @@ import static org.swarmcom.jsynapse.service.registration.password.RegistrationPa
 
 @Component(PASSWORD_TYPE)
 public class PasswordRegistrationProvider implements RegistrationProvider {
-    final static RegistrationInfo schema = new RegistrationPasswordInfo();
+    final static RegistrationInfo flow = new RegistrationPasswordInfo();
     private final UserRepository repository;
 
     @Inject
@@ -23,8 +23,8 @@ public class PasswordRegistrationProvider implements RegistrationProvider {
     }
 
     @Override
-    public RegistrationInfo getSchema() {
-        return schema;
+    public RegistrationInfo getFlow() {
+        return flow;
     }
 
     @Override
