@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.swarmcom.jsynapse.domain.Registration.*;
 import org.swarmcom.jsynapse.service.exception.EntityNotFoundException;
+import org.swarmcom.jsynapse.service.exception.InvalidRequestException;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         String type = registration.getType();
         RegistrationProvider provider = getProviders().get(type);
         if (null == provider) {
-            throw new EntityNotFoundException(format("Registration provider for %s type not found", type));
+            throw new InvalidRequestException("Bad login type");
         }
         return provider.register(registration);
     }
