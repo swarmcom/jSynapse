@@ -1,33 +1,33 @@
 package org.swarmcom.jsynapse;
 
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
-import org.springframework.boot.SpringApplication;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.swarmcom.jsynapse.service.utils.RoomUtils;
+
+import static java.lang.String.format;
+import static org.springframework.boot.SpringApplication.run;
 
 @SpringBootApplication
 @Configuration
-public class JSynapseServer extends AbstractMongoConfiguration {
+public class JSynapseServer {
     public static String DOMAIN = "swarmcom.org";
+
+    @Bean
+    public RoomUtils roomUtils() {
+        return new RoomUtils() {
+            @Override
+            public String generateRoomId() {
+                return format("!%s:%s", RandomStringUtils.random(18, true, false), DOMAIN);
+            }
+        };
+    }
 
     public static void main(String[] args) {
         if (args.length > 0) {
             DOMAIN = args[0];
         }
-        SpringApplication.run(JSynapseServer.class, args);
-    }
-
-    @Bean
-    public Mongo mongo() throws Exception {
-        return new MongoClient("localhost:27017");
-    }
-
-    @Override
-    public String getDatabaseName() {
-        return "matrix";
+        run(JSynapseServer.class, args);
     }
 }

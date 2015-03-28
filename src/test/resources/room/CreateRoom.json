@@ -1,0 +1,10 @@
+{
+  "visibility": "private",
+  "room_alias_name": "alias",
+  "name": "name",
+  "topic": "My_New_Room",
+  "invite": [
+    "bob@swarmcom.org",
+    "alice@swarmcom.org"
+  ]
+}

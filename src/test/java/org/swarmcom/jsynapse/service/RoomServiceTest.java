@@ -1,26 +1,46 @@
 package org.swarmcom.jsynapse.service;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.swarmcom.jsynapse.TestBase;
 
-import static org.junit.Assert.assertTrue;
-
-@RunWith(MockitoJUnitRunner.class)
-public class RoomServiceTest {
-
-    @Mock
-    private RoomService roomService;
+public class RoomServiceTest extends TestBase {
+    @Autowired
+    RoomService roomService;
 
     @Test
-    public void createRoom() throws Exception {
-        assertTrue(true);
+    public void createRoom() {
+
     }
 
     @Test
-    public void getRoomByAlias() throws Exception {
-        assertTrue(true);
+    public void findRoomByAlias() {
+
+    }
+
+    @Test
+    public void saveAlias() {
+
+    }
+
+    @Test
+    public void deleteAlias() {
+
+    }
+
+    @Test
+    public void findRoomById() {
+
+    }
+
+    @Test
+    public void saveTopic() {
+
+    }
+
+    @Test
+    public void saveName() {
+
     }
 
 }

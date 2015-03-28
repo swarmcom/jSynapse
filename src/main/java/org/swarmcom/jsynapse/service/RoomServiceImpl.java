@@ -1,37 +1,39 @@
 package org.swarmcom.jsynapse.service;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.swarmcom.jsynapse.dao.RoomRepository;
 import org.swarmcom.jsynapse.domain.Room;
 import org.swarmcom.jsynapse.service.exception.EntityAlreadyExistsException;
 import org.swarmcom.jsynapse.service.exception.EntityNotFoundException;
-import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 import org.swarmcom.jsynapse.service.exception.InvalidRequestException;
+import org.swarmcom.jsynapse.service.utils.RoomUtils;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import static org.swarmcom.jsynapse.JSynapseServer.DOMAIN;
+
 import static java.lang.String.format;
 
 @Service
 @Validated
 public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
+    public RoomUtils utils;
 
     @Inject
-    public RoomServiceImpl(final RoomRepository repository) {
+    public RoomServiceImpl(final RoomRepository repository, final RoomUtils utils) {
         roomRepository = repository;
+        this.utils = utils;
     }
 
     @Override
     public Room createRoom(@NotNull @Valid final Room room) {
-        String roomId = String.format("!%s:%s", RandomStringUtils.random(18, true, false), DOMAIN);
+        String roomId = utils.generateRoomId();
         room.setRoomId(roomId);
         Room createdRoom = roomRepository.save(room);
         if (null == createdRoom) {
-            throw new EntityAlreadyExistsException(format("Room with alias %s already on this homeserver", room.getAlias()));
+            throw new EntityAlreadyExistsException(format("Failed to create room %s", room.toString()));
         }
         return createdRoom;
     }

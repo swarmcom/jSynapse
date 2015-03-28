@@ -9,9 +9,8 @@ import org.swarmcom.jsynapse.service.MessageService;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import java.util.List;
-
 import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static org.swarmcom.jsynapse.domain.Message.Messages;
 
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -30,7 +29,7 @@ public class MessageRestApi extends JsynapseApi {
     }
 
     @RequestMapping(value = "/rooms/{roomId}/messages", method = GET)
-    public List<Message> getMessages(@PathVariable String roomId) {
+    public Messages getMessages(@PathVariable String roomId) {
         return messageService.getMessages(roomId);
     }
 }

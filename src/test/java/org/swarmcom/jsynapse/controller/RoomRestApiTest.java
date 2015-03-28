@@ -1,38 +1,87 @@
 package org.swarmcom.jsynapse.controller;
 
+import org.apache.commons.io.IOUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
+import org.swarmcom.jsynapse.TestBase;
 import org.swarmcom.jsynapse.service.RoomService;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.swarmcom.jsynapse.service.RoomServiceImpl;
+import org.swarmcom.jsynapse.service.utils.RoomUtils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import java.io.InputStream;
 
-@RunWith(MockitoJUnitRunner.class)
-public class RoomRestApiTest {
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+import static org.apache.commons.lang3.StringUtils.deleteWhitespace;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.mockito.Mockito.*;
 
-    @Mock
-    private RoomService roomService;
+public class RoomRestApiTest extends TestBase {
 
-    private RoomRestApi roomRestApi;
+    @Autowired
+    private WebApplicationContext wac;
+
+    private MockMvc mockMvc;
+
+    @Value("classpath:room/CreateRoom.json")
+    private Resource createRoomJSON;
+
+    @Value("classpath:room/CreateRoomResponse.json")
+    private Resource createRoomResponseJSON;
+
+    @Value("classpath:room/GetTopicRoom.json")
+    private Resource getTopicRoomJSON;
+
+    @Autowired
+    MongoTemplate mongoTemplate;
+
+    @Autowired
+    RoomService roomService;
 
     @Before
-    public void setUp() throws Exception {
-        roomRestApi = new RoomRestApi(roomService);
+    public void setup() {
+        this.mockMvc = webAppContextSetup(this.wac).build();
+        RoomUtils utils = mock(RoomUtils.class);
+        when(utils.generateRoomId()).thenReturn("!IhCdHhojjFFBLrJKSn:swarmcom.org");
+        ((RoomServiceImpl) roomService).utils = utils;
+    }
+
+    @After
+    public void after() throws Exception {
+        mongoTemplate.getDb().dropDatabase();
     }
 
     @Test
-    public void createRoom() throws Exception {
-        assertTrue(true);
-    }
+    public void createRoomAndRetrieveTopic() throws Exception {
+        try(InputStream request = createRoomJSON.getInputStream()) {
+            try (InputStream response = createRoomResponseJSON.getInputStream()) {
+                this.mockMvc.perform(post("/api/v1/createRoom")
+                        .contentType(APPLICATION_JSON).content(IOUtils.toString(request)))
+                        .andExpect(status().isOk())
+                        .andExpect(content()
+                                .string(deleteWhitespace(IOUtils.toString(response))))
+                        .andReturn();
+            }
+        }
 
-    @Test
-    public void getRoomByAlias() throws Exception {
-        assertTrue(true);
+        try(InputStream response = getTopicRoomJSON.getInputStream()) {
+            this.mockMvc.perform(get("/api/v1/rooms/!IhCdHhojjFFBLrJKSn:swarmcom.org/state/m.room.topic"))
+                    .andExpect(status().isOk())
+                    .andExpect(content()
+                            .string(deleteWhitespace(IOUtils.toString(response))))
+                    .andReturn();
+
+        }
     }
 
 }
