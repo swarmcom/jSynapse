@@ -12,7 +12,7 @@ RUN yum update
 RUN yum install -y java-1.7.0-openjdk maven
 
 # let's build jSynapse
-RUN mvn clean install
+RUN mvn clean install -Dmaven.test.skip=true
 
 EXPOSE 5555:5555
 
