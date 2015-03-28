@@ -1,10 +1,11 @@
-package org.swarmcom.jsynapse.service;
+package org.swarmcom.jsynapse.service.message;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.swarmcom.jsynapse.dao.MessageRepository;
 import org.swarmcom.jsynapse.domain.Message;
 import org.swarmcom.jsynapse.domain.Room;
+import org.swarmcom.jsynapse.service.room.RoomService;
 
 import javax.inject.Inject;
 import static org.swarmcom.jsynapse.domain.Message.Messages;

@@ -1,4 +1,4 @@
-package org.swarmcom.jsynapse.controller;
+package org.swarmcom.jsynapse.controller.api.v1;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
@@ -11,9 +11,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import org.swarmcom.jsynapse.TestBase;
-import org.swarmcom.jsynapse.service.RoomService;
-import org.swarmcom.jsynapse.service.RoomServiceImpl;
-import org.swarmcom.jsynapse.service.utils.RoomUtils;
+import org.swarmcom.jsynapse.service.room.RoomService;
+import org.swarmcom.jsynapse.service.room.RoomServiceImpl;
+import org.swarmcom.jsynapse.service.room.RoomUtils;
 
 import java.io.InputStream;
 
@@ -63,9 +63,9 @@ public class RoomRestApiTest extends TestBase {
 
     @Test
     public void createRoomAndRetrieveTopic() throws Exception {
-        try(InputStream request = createRoomJSON.getInputStream()) {
+        try (InputStream request = createRoomJSON.getInputStream()) {
             try (InputStream response = createRoomResponseJSON.getInputStream()) {
-                this.mockMvc.perform(post("/api/v1/createRoom")
+                this.mockMvc.perform(post("/_matrix/client/api/v1/createRoom")
                         .contentType(APPLICATION_JSON).content(IOUtils.toString(request)))
                         .andExpect(status().isOk())
                         .andExpect(content()
@@ -74,8 +74,9 @@ public class RoomRestApiTest extends TestBase {
             }
         }
 
-        try(InputStream response = getTopicRoomJSON.getInputStream()) {
-            this.mockMvc.perform(get("/api/v1/rooms/!IhCdHhojjFFBLrJKSn:swarmcom.org/state/m.room.topic"))
+        try (InputStream response = getTopicRoomJSON.getInputStream()) {
+            this.mockMvc.perform(
+                    get("/_matrix/client/api/v1/rooms/!IhCdHhojjFFBLrJKSn:swarmcom.org/state/m.room.topic"))
                     .andExpect(status().isOk())
                     .andExpect(content()
                             .string(deleteWhitespace(IOUtils.toString(response))))

@@ -1,20 +1,22 @@
-package org.swarmcom.jsynapse.controller;
+package org.swarmcom.jsynapse.controller.api.v1;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import org.swarmcom.jsynapse.controller.JsynapseApi;
 import org.swarmcom.jsynapse.domain.Room;
-import org.swarmcom.jsynapse.service.RoomService;
+import org.swarmcom.jsynapse.service.room.RoomService;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static java.lang.String.format;
+import static org.swarmcom.jsynapse.controller.JsynapseApi.V1_API;
 
 @RestController
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = V1_API)
 public class RoomRestApi extends JsynapseApi {
     private static final Logger LOGGER = LoggerFactory.getLogger(RoomRestApi.class);
     private final RoomService roomService;

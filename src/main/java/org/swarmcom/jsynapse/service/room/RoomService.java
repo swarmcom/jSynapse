@@ -1,4 +1,4 @@
-package org.swarmcom.jsynapse.service;
+package org.swarmcom.jsynapse.service.room;
 
 import org.swarmcom.jsynapse.domain.Room;
 

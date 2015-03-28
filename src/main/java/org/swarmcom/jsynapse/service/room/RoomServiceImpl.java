@@ -1,4 +1,4 @@
-package org.swarmcom.jsynapse.service;
+package org.swarmcom.jsynapse.service.room;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -7,7 +7,6 @@ import org.swarmcom.jsynapse.domain.Room;
 import org.swarmcom.jsynapse.service.exception.EntityAlreadyExistsException;
 import org.swarmcom.jsynapse.service.exception.EntityNotFoundException;
 import org.swarmcom.jsynapse.service.exception.InvalidRequestException;
-import org.swarmcom.jsynapse.service.utils.RoomUtils;
 
 import javax.inject.Inject;
 import javax.validation.Valid;

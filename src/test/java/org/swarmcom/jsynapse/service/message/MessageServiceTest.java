@@ -1,15 +1,13 @@
-package org.swarmcom.jsynapse.service;
+package org.swarmcom.jsynapse.service.message;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.swarmcom.jsynapse.TestBase;
 import org.swarmcom.jsynapse.domain.Room;
 import org.swarmcom.jsynapse.domain.Message;
-
-import java.util.List;
+import org.swarmcom.jsynapse.service.room.RoomService;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
