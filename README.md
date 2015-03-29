@@ -12,11 +12,12 @@ Steps to get it running:
 
 
 Install and start from Docker image:
-- sudo docker pull swarmcom/mongodb
-- sudo docker run --name mongo_swarm -p 27017:27017 -d swarmcom/mongodb:latest --noprealloc --smallfiles --replSet=jsynapse
+- sudo docker pull dizzy/mongodb
+- sudo docker run --name mongo_swarm -p 27017:27017 -d dizzy/mongodb:latest --noprealloc --smallfiles --replSet=jsynapse
 
 - sudo docker pull swarmcom/jsynapse
-- sudo docker run -d -name synapse1 -p 5555:5555 --link mongo_swarm:db swarmcom/jsynapse:latest --spring.data.mongodb.uri=mongodb://mongohost:27017/matrix
+- sudo docker inspect mongo_swarm (and extract ip)
+- sudo docker run -d -name synapse1 -p 5555:5555 --link mongo_swarm:db swarmcom/jsynapse:latest --spring.data.mongodb.uri=mongodb://(mongo_swarm ip):27017/matrix
 
 
 jSynapse homeserver accepts requests on port 5555,
