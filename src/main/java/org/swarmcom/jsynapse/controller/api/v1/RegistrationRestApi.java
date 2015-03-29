@@ -8,6 +8,7 @@ import org.swarmcom.jsynapse.domain.Registration.RegistrationFlows;
 import org.swarmcom.jsynapse.service.registration.RegistrationService;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import java.util.Map;
 
@@ -31,7 +32,8 @@ public class RegistrationRestApi extends JsynapseApi {
     }
 
     @RequestMapping(value = "/register", method = POST)
-    public @ResponseBody RegistrationResult register(@RequestBody final RegistrationSubmission registration) {
+    public @ResponseBody RegistrationResult register(@RequestBody final RegistrationSubmission registration, HttpServletRequest request) {
+        registration.setRemoteAddr(request.getRemoteAddr());
         return registrationService.register(registration);
     }
 }

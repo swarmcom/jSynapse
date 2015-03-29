@@ -34,12 +34,23 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public RegistrationResult register(RegistrationSubmission registration) {
-        String type = registration.getType();
+        RegistrationProvider provider = getProvider(registration.getType());
+        checkSubmission(provider, registration);
+        return provider.register(registration);
+    }
+
+    public RegistrationProvider getProvider(String type) {
         RegistrationProvider provider = getProviders().get(type);
         if (null == provider) {
             throw new InvalidRequestException("Bad login type");
         }
-        return provider.register(registration);
+        return provider;
+    }
+
+    public void checkSubmission(RegistrationProvider provider, RegistrationSubmission registration) {
+        if (!provider.getFlow().validateKeys(registration)) {
+            throw new InvalidRequestException("Missing registration keys");
+        }
     }
 
     private Map<String, RegistrationProvider> getProviders() {

@@ -1,6 +1,6 @@
 package org.swarmcom.jsynapse.service.registration.password;
 
-import org.swarmcom.jsynapse.domain.Registration.RegistrationInfo;
+import org.swarmcom.jsynapse.domain.Registration.*;
 
 public class RegistrationPasswordInfo extends RegistrationInfo {
     final static String PASSWORD_TYPE = "m.login.password";
@@ -9,5 +9,10 @@ public class RegistrationPasswordInfo extends RegistrationInfo {
 
     public RegistrationPasswordInfo() {
         setType(PASSWORD_TYPE);
+    }
+
+    @Override
+    public boolean validateKeys(RegistrationSubmission registration) {
+        return registration.containsKey(USER) && registration.containsKey(PASSWORD);
     }
 }

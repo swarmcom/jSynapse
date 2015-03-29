@@ -29,19 +29,13 @@ public class PasswordRegistrationProvider implements RegistrationProvider {
 
     @Override
     public RegistrationResult register(RegistrationSubmission registration) {
-        validateKeys(registration);
         String userId = registration.get(USER);
         String password = registration.get(PASSWORD);
         // TODO create and inject Password encoder, use it to hash password
         // TODO verify if user name already exists, compose it with domain
+        // TODO throw register error if not a valid request
         User user = new User(userId, password);
         repository.save(user);
         return new RegistrationResult(userId);
-    }
-
-    public void validateKeys(RegistrationSubmission registration) {
-        if (!registration.containsKey(USER) || !registration.containsKey(PASSWORD)) {
-            throw new InvalidRequestException("Missing registration keys");
-        }
     }
 }

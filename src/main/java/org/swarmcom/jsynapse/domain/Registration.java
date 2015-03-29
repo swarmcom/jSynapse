@@ -24,6 +24,10 @@ public class Registration {
         public void setType(String type) {
             this.type = type;
         }
+
+        public boolean validateKeys(RegistrationSubmission registration) {
+            return true;
+        }
     }
 
     public static class RegistrationFlows {
@@ -55,12 +59,22 @@ public class Registration {
     }
 
     public static class RegistrationSubmission extends HashMap<String, String> {
+        static final String TYPE = "type";
+        static final String REMOTE_ADDR = "remoteAddr";
 
         public RegistrationSubmission() {
         }
 
         public String getType() {
-            return get("type");
+            return get(TYPE);
+        }
+
+        public void setRemoteAddr(String remoteAddr) {
+            put(REMOTE_ADDR, remoteAddr);
+        }
+
+        public String getRemoteAddr() {
+            return get(REMOTE_ADDR);
         }
 
     }
