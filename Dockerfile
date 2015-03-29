@@ -17,4 +17,4 @@ RUN mvn clean install -Dmaven.test.skip=true
 EXPOSE 5555:5555
 
 # jSynapse server entrypoint
-ENTRYPOINT ["/usr/bin/java -jar /jSynapse/src/target/jSynapse-1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["/usr/bin/java", "-jar", "target/jSynapse-1.0-SNAPSHOT.jar"]
