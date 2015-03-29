@@ -16,5 +16,5 @@ RUN mvn clean install -Dmaven.test.skip=true
 
 EXPOSE 5555:5555
 
-# start jSynapse server
-CMD java -jar target/jSynapse-1.0-SNAPSHOT.jar
+# jSynapse server entrypoint
+ENTRYPOINT ["java -jar target/jSynapse-1.0-SNAPSHOT.jar"]
