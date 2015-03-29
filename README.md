@@ -14,7 +14,7 @@ Steps to get it running:
 Install and start from Docker image:
 - sudo docker pull dizzy/mongodb
 - sudo docker run --name mongo_swarm -p 27017:27017 -d dizzy/mongodb:latest --noprealloc --smallfiles --replSet=jsynapse
-then intiate replicaset as: 
+then intiate replicaset as: mongo --eval "rs.initiate()"
 
 - sudo docker pull dizzy/jsynapse
 - sudo docker inspect mongo_swarm (and extract ip)
