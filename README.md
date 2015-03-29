@@ -17,7 +17,7 @@ Install and start from Docker image:
 then intiate replicaset as: mongo --eval "rs.initiate()"
 
 - sudo docker pull dizzy/jsynapse
-- sudo docker inspect mongo_swarm (and extract ip)
+- get mongo ip address by running: sudo docker inspect mongo_swarm | grep IPAddress
 - sudo docker run -d -name synapse1 -p 5555:5555 --link mongo_swarm:db dizzy/jsynapse:latest --spring.data.mongodb.uri=mongodb://(mongo_swarm ip):27017/matrix
 
 You can run a farm of jSynapse servers, pointing all to the same MongoDB instance:
