@@ -39,6 +39,13 @@ public class RegistrationServiceImpl implements RegistrationService {
         return provider.register(registration);
     }
 
+    @Override
+    public RegistrationResult login(RegistrationSubmission login) {
+        RegistrationProvider provider = getProvider(login.getType());
+        checkSubmission(provider, login);
+        return provider.login(login);
+    }
+
     public RegistrationProvider getProvider(String type) {
         RegistrationProvider provider = getProviders().get(type);
         if (null == provider) {
@@ -51,16 +58,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (!provider.getFlow().validateKeys(registration)) {
             throw new InvalidRequestException("Missing registration keys");
         }
-    }
-
-    @Override
-    public RegistrationResult login(RegistrationSubmission login) {
-        String type = login.getType();
-        RegistrationProvider provider = getProviders().get(type);
-        if (null == provider) {
-            throw new InvalidRequestException("Bad login type");
-        }
-        return provider.login(login);
     }
 
     private Map<String, RegistrationProvider> getProviders() {

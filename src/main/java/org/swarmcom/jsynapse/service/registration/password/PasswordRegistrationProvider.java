@@ -3,12 +3,12 @@ package org.swarmcom.jsynapse.service.registration.password;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.swarmcom.jsynapse.dao.UserRepository;
-import org.swarmcom.jsynapse.domain.Registration;
-import org.swarmcom.jsynapse.domain.Registration.*;
+import org.swarmcom.jsynapse.domain.Registration.RegistrationInfo;
+import org.swarmcom.jsynapse.domain.Registration.RegistrationResult;
+import org.swarmcom.jsynapse.domain.Registration.RegistrationSubmission;
 import org.swarmcom.jsynapse.domain.User;
 import org.swarmcom.jsynapse.service.exception.EntityAlreadyExistsException;
 import org.swarmcom.jsynapse.service.exception.EntityNotFoundException;
-import org.swarmcom.jsynapse.service.exception.InvalidRequestException;
 import org.swarmcom.jsynapse.service.exception.LoginFailureException;
 import org.swarmcom.jsynapse.service.registration.RegistrationProvider;
 
@@ -50,7 +50,6 @@ public class PasswordRegistrationProvider implements RegistrationProvider {
 
     @Override
     public RegistrationResult login(RegistrationSubmission login) {
-        validateKeys(login);
         String userId = login.get(USER);
         String password = login.get(PASSWORD);
         User user = repository.findOneByUserId(userId);
@@ -62,11 +61,5 @@ public class PasswordRegistrationProvider implements RegistrationProvider {
             throw new LoginFailureException("Bad password");
         }
         return new RegistrationResult(userId);
-    }
-
-    public void validateKeys(RegistrationSubmission registration) {
-        if (!registration.containsKey(USER) || !registration.containsKey(PASSWORD)) {
-            throw new InvalidRequestException("Missing registration keys");
-        }
     }
 }
