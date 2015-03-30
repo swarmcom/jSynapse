@@ -1,5 +1,6 @@
 package org.swarmcom.jsynapse.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 public class User {
@@ -8,10 +9,27 @@ public class User {
 
     String userId;
 
-    String password;
+    @JsonProperty("password")
+    String hashedPassword;
 
     public User(String userId, String hashedPassword) {
         this.userId = userId;
-        this.password = hashedPassword;
+        this.hashedPassword = hashedPassword;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getHashedPassword() {
+        return hashedPassword;
+    }
+
+    public void getHashedPassword(String password) {
+        this.hashedPassword = password;
     }
 }

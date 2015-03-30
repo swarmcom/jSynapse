@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.swarmcom.jsynapse.JSynapseServer.DOMAIN;
+import static org.apache.commons.lang3.StringUtils.join;
+import static org.apache.commons.lang3.RandomStringUtils.random;
+
 public class Registration {
 
     public static class RegistrationInfo {
@@ -41,8 +45,12 @@ public class Registration {
         @JsonProperty("user_id")
         String user;
 
+        @JsonProperty("access_token")
+        String accessToken;
+
         public RegistrationResult(String user) {
-            this.user = user;
+            this.user = join(new String[]{"@", user,":", DOMAIN});
+            this.accessToken = random(16, true, false);
         }
 
         public String getUser() {
@@ -51,6 +59,10 @@ public class Registration {
 
         public void setUser(String user) {
             this.user = user;
+        }
+
+        public String getAccessToken() {
+            return accessToken;
         }
     }
 
@@ -62,6 +74,5 @@ public class Registration {
         public String getType() {
             return get("type");
         }
-
     }
 }

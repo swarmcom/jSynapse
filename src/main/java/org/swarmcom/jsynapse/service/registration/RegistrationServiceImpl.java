@@ -42,6 +42,16 @@ public class RegistrationServiceImpl implements RegistrationService {
         return provider.register(registration);
     }
 
+    @Override
+    public RegistrationResult login(RegistrationSubmission login) {
+        String type = login.getType();
+        RegistrationProvider provider = getProviders().get(type);
+        if (null == provider) {
+            throw new InvalidRequestException("Bad login type");
+        }
+        return provider.login(login);
+    }
+
     private Map<String, RegistrationProvider> getProviders() {
         if (null == providers) {
             providers = applicationContext.getBeansOfType(RegistrationProvider.class);

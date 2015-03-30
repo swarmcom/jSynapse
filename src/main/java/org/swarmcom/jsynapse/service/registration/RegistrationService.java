@@ -8,4 +8,6 @@ public interface RegistrationService {
     RegistrationFlows getSupportedFlows();
 
     RegistrationResult register(RegistrationSubmission registration);
+
+    RegistrationResult login(RegistrationSubmission registration);
 }
