@@ -4,4 +4,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.swarmcom.jsynapse.domain.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
+    User findOneByUserId(String userId);
 }

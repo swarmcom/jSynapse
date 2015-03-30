@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.swarmcom.jsynapse.dao.UserRepository;
+import org.swarmcom.jsynapse.domain.Registration;
 import org.swarmcom.jsynapse.domain.Registration.RegistrationInfo;
 import org.swarmcom.jsynapse.domain.Registration.RegistrationResult;
 import org.swarmcom.jsynapse.domain.Registration.RegistrationSubmission;
@@ -48,6 +49,11 @@ public class RecaptchaRegistrationProvider implements RegistrationProvider {
         User user = new User("user", "password");
         repository.save(user);
         return new RegistrationResult("userid");
+    }
+
+    @Override
+    public RegistrationResult login(RegistrationSubmission registration) {
+        return null;
     }
 
     public void validateRecaptcha(RegistrationSubmission registration) {
