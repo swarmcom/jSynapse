@@ -1,39 +1,39 @@
-package org.swarmcom.jsynapse.service.registration.password;
+package org.swarmcom.jsynapse.service.authentication.password;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.swarmcom.jsynapse.dao.UserRepository;
-import org.swarmcom.jsynapse.domain.Registration.RegistrationInfo;
-import org.swarmcom.jsynapse.domain.Registration.RegistrationResult;
-import org.swarmcom.jsynapse.domain.Registration.RegistrationSubmission;
+import org.swarmcom.jsynapse.domain.Authentication.AuthenticationInfo;
+import org.swarmcom.jsynapse.domain.Authentication.AuthenticationResult;
+import org.swarmcom.jsynapse.domain.Authentication.AuthenticationSubmission;
 import org.swarmcom.jsynapse.domain.User;
 import org.swarmcom.jsynapse.service.exception.EntityAlreadyExistsException;
 import org.swarmcom.jsynapse.service.exception.EntityNotFoundException;
 import org.swarmcom.jsynapse.service.exception.LoginFailureException;
-import org.swarmcom.jsynapse.service.registration.RegistrationProvider;
+import org.swarmcom.jsynapse.service.authentication.AuthenticationProvider;
 
 import javax.inject.Inject;
 
-import static org.swarmcom.jsynapse.service.registration.password.RegistrationPasswordInfo.*;
+import static org.swarmcom.jsynapse.service.authentication.password.PasswordInfo.*;
 
 @Component(PASSWORD_TYPE)
-public class PasswordRegistrationProvider implements RegistrationProvider {
-    final static RegistrationInfo flow = new RegistrationPasswordInfo();
+public class PasswordProvider implements AuthenticationProvider {
+    final static AuthenticationInfo flow = new PasswordInfo();
     private final UserRepository repository;
 
     @Inject
-    public PasswordRegistrationProvider(final UserRepository repository) {
+    public PasswordProvider(final UserRepository repository) {
         // TODO create and inject UserService - access to user repository through it
         this.repository = repository;
     }
 
     @Override
-    public RegistrationInfo getFlow() {
+    public AuthenticationInfo getFlow() {
         return flow;
     }
 
     @Override
-    public RegistrationResult register(RegistrationSubmission registration) {
+    public AuthenticationResult register(AuthenticationSubmission registration) {
         String userId = registration.get(USER);
         String password = registration.get(PASSWORD);
         // TODO create and inject Password encoder, use it to hash password
@@ -45,11 +45,11 @@ public class PasswordRegistrationProvider implements RegistrationProvider {
         }
         user = new User(userId, password);
         repository.save(user);
-        return new RegistrationResult(userId);
+        return new AuthenticationResult(userId);
     }
 
     @Override
-    public RegistrationResult login(RegistrationSubmission login) {
+    public AuthenticationResult login(AuthenticationSubmission login) {
         String userId = login.get(USER);
         String password = login.get(PASSWORD);
         User user = repository.findOneByUserId(userId);
@@ -60,6 +60,6 @@ public class PasswordRegistrationProvider implements RegistrationProvider {
         if (!StringUtils.equals(password, user.getHashedPassword())) {
             throw new LoginFailureException("Bad password");
         }
-        return new RegistrationResult(userId);
+        return new AuthenticationResult(userId);
     }
 }

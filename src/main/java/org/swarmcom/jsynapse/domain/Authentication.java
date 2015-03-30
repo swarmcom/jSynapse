@@ -11,9 +11,9 @@ import static org.swarmcom.jsynapse.JSynapseServer.DOMAIN;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.commons.lang3.RandomStringUtils.random;
 
-public class Registration {
+public class Authentication {
 
-    public static class RegistrationInfo {
+    public static class AuthenticationInfo {
         @JsonProperty
         String type;
 
@@ -29,22 +29,22 @@ public class Registration {
             this.type = type;
         }
 
-        public boolean validateKeys(RegistrationSubmission registration) {
+        public boolean validateKeys(AuthenticationSubmission authentication) {
             return true;
         }
     }
 
-    public static class RegistrationFlows {
+    public static class AuthenticationFlows {
 
         @JsonProperty
-        List<RegistrationInfo> flows = new LinkedList<>();
+        List<AuthenticationInfo> flows = new LinkedList<>();
 
-        public RegistrationFlows(List<RegistrationInfo> flows) {
+        public AuthenticationFlows(List<AuthenticationInfo> flows) {
             this.flows = flows;
         }
     }
 
-    public static class RegistrationResult {
+    public static class AuthenticationResult {
 
         @JsonProperty("user_id")
         String user;
@@ -52,7 +52,7 @@ public class Registration {
         @JsonProperty("access_token")
         String accessToken;
 
-        public RegistrationResult(String user) {
+        public AuthenticationResult(String user) {
             this.user = join(new String[]{"@", user,":", DOMAIN});
             this.accessToken = random(16, true, false);
         }
@@ -70,11 +70,11 @@ public class Registration {
         }
     }
 
-    public static class RegistrationSubmission extends HashMap<String, String> {
+    public static class AuthenticationSubmission extends HashMap<String, String> {
         static final String TYPE = "type";
         static final String REMOTE_ADDR = "remoteAddr";
 
-        public RegistrationSubmission() {
+        public AuthenticationSubmission() {
         }
 
         public String getType() {
