@@ -10,5 +10,5 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @SpringApplicationConfiguration(classes = JSynapseServer.class)
 @WebAppConfiguration
 @ActiveProfiles(profiles = "test")
-public class TestBase {
+public abstract class TestBase {
 }

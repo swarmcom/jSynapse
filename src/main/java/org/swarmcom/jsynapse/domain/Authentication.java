@@ -52,9 +52,9 @@ public class Authentication {
         @JsonProperty("access_token")
         String accessToken;
 
-        public AuthenticationResult(String user) {
-            this.user = join(new String[]{"@", user,":", DOMAIN});
-            this.accessToken = random(16, true, false);
+        public AuthenticationResult(String user, String accessToken) {
+            this.user = user;
+            this.accessToken = accessToken;
         }
 
         public String getUser() {

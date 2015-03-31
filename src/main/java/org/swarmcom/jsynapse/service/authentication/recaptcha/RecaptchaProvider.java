@@ -14,6 +14,7 @@ import org.swarmcom.jsynapse.domain.User;
 import org.swarmcom.jsynapse.service.exception.InvalidRequestException;
 import org.swarmcom.jsynapse.service.authentication.AuthenticationProvider;
 import org.swarmcom.jsynapse.service.user.UserService;
+import org.swarmcom.jsynapse.service.user.UserUtils;
 
 import javax.inject.Inject;
 
@@ -26,12 +27,14 @@ public class RecaptchaProvider implements AuthenticationProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecaptchaProvider.class);
 
     private final UserService userService;
+    private final UserUtils userUtils;
 
     private @Value("${recaptcha.private.key:null}") String recapthaPrivateKey;
 
     @Inject
-    public RecaptchaProvider(final UserService userService) {
+    public RecaptchaProvider(final UserService userService, final UserUtils userUtils) {
         this.userService = userService;
+        this.userUtils = userUtils;
     }
 
     @Override
@@ -45,13 +48,13 @@ public class RecaptchaProvider implements AuthenticationProvider {
         // TODO throw register error if not a valid request
         User user = new User("user", "password");
         userService.createUser(user);
-        return new AuthenticationResult("userid");
+        return new AuthenticationResult("userid", userUtils.generateAccessToken());
     }
 
     @Override
     public AuthenticationResult login(AuthenticationSubmission login) {
         validateRecaptcha(login);
-        return new AuthenticationResult("userid");
+        return new AuthenticationResult("userid", userUtils.generateAccessToken());
     }
 
     public void validateRecaptcha(AuthenticationSubmission registration) {
