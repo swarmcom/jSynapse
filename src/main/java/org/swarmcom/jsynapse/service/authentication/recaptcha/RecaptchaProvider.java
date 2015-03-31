@@ -13,6 +13,7 @@ import org.swarmcom.jsynapse.domain.Authentication.AuthenticationSubmission;
 import org.swarmcom.jsynapse.domain.User;
 import org.swarmcom.jsynapse.service.exception.InvalidRequestException;
 import org.swarmcom.jsynapse.service.authentication.AuthenticationProvider;
+import org.swarmcom.jsynapse.service.user.UserService;
 
 import javax.inject.Inject;
 
@@ -24,14 +25,13 @@ public class RecaptchaProvider implements AuthenticationProvider {
     final static AuthenticationInfo flow = new RecaptchaInfo();
     private static final Logger LOGGER = LoggerFactory.getLogger(RecaptchaProvider.class);
 
-    private final UserRepository repository;
+    private final UserService userService;
 
     private @Value("${recaptcha.private.key:null}") String recapthaPrivateKey;
 
     @Inject
-    public RecaptchaProvider(final UserRepository repository) {
-        // TODO create and inject UserService - access to user repository through it
-        this.repository = repository;
+    public RecaptchaProvider(final UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -42,17 +42,16 @@ public class RecaptchaProvider implements AuthenticationProvider {
     @Override
     public AuthenticationResult register(AuthenticationSubmission registration) {
         validateRecaptcha(registration);
-        // TODO create and inject Password encoder, use it to hash password
-        // TODO verify if user name already exists, compose it with domain
         // TODO throw register error if not a valid request
         User user = new User("user", "password");
-        repository.save(user);
+        userService.createUser(user);
         return new AuthenticationResult("userid");
     }
 
     @Override
-    public AuthenticationResult login(AuthenticationSubmission registration) {
-        return null;
+    public AuthenticationResult login(AuthenticationSubmission login) {
+        validateRecaptcha(login);
+        return new AuthenticationResult("userid");
     }
 
     public void validateRecaptcha(AuthenticationSubmission registration) {
