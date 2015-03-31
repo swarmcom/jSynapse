@@ -1,7 +1,7 @@
 {
   "visibility": "private",
   "room_alias_name": "alias",
-  "name": "name",
+  "name": "nameRoom",
   "topic": "My_New_Room",
   "invite": [
     "bob@swarmcom.org",

@@ -1,0 +1,4 @@
+{
+  "type": "m.login.password",
+  "user": "user"
+}

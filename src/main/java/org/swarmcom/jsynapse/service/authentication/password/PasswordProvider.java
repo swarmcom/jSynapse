@@ -1,14 +1,27 @@
+/*
+ * (C) Copyright 2015 eZuce Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+*/
 package org.swarmcom.jsynapse.service.authentication.password;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import org.swarmcom.jsynapse.dao.UserRepository;
 import org.swarmcom.jsynapse.domain.Authentication.AuthenticationInfo;
 import org.swarmcom.jsynapse.domain.Authentication.AuthenticationResult;
 import org.swarmcom.jsynapse.domain.Authentication.AuthenticationSubmission;
 import org.swarmcom.jsynapse.domain.User;
-import org.swarmcom.jsynapse.service.exception.EntityAlreadyExistsException;
-import org.swarmcom.jsynapse.service.exception.EntityNotFoundException;
 import org.swarmcom.jsynapse.service.exception.LoginFailureException;
 import org.swarmcom.jsynapse.service.authentication.AuthenticationProvider;
 import org.swarmcom.jsynapse.service.user.UserService;
@@ -22,7 +35,7 @@ import static org.swarmcom.jsynapse.service.authentication.password.PasswordInfo
 public class PasswordProvider implements AuthenticationProvider {
     final static AuthenticationInfo flow = new PasswordInfo();
     private final UserService userService;
-    private final UserUtils userUtils;
+    public UserUtils userUtils;
 
     @Inject
     public PasswordProvider(final UserService userService, final UserUtils userUtils) {
