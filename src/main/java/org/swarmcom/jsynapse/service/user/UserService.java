@@ -23,7 +23,9 @@ public interface UserService {
 
     public User findUserById(String userId);
 
-    public void saveDisplayName(String userId, String displayName);
+    public void saveDisplayName(String userId, String displayName, String accessToken);
 
-    public void saveAvatarUrl(String userId, String avatarUrl);
+    public void saveAvatarUrl(String userId, String avatarUrl, String accessToken);
+
+    public User findLoggedUserById(String userId, String accessToken);
 }

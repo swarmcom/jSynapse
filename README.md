@@ -28,4 +28,18 @@ To start with a different domain (default swarmcom.org) use --domain=mydomain.or
 
 To check server health point browser to http://localhost:5555/health
 
+Examples to get/set user display name and avatar url
+
+curl -X PUT -H "Content-Type: application/json" -d '{"displayname":"John Doe"}'  http://localhost:5555/_matrix/client/api/v1/profile/@mirceac:swarmcom.org/displayname?access_token=VEJbwzztYLhcIkKM
+
+curl http://localhost:5555/_matrix/client/api/v1/profile/@mirceac:swarmcom.org/displayname?access_token=VEJbwzztYLhcIkKM
+{"displayname":"John Doe"}
+
+
+
+curl -X PUT -H "Content-Type: application/json" -d '{"avatar_url":"url"}'  http://localhost:5555/_matrix/client/api/v1/profile/@mirceac:swarmcom.org/avatar_url?access_token=VEJbwzztYLhcIkKM
+
+curl http://localhost:5555/_matrix/client/api/v1/profile/@mirceac:swarmcom.org/avatar_url?access_token=VEJbwzztYLhcIkKM
+{"avatar_url":"url"}
+
 

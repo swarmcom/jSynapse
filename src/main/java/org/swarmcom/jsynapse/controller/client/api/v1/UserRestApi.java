@@ -24,6 +24,7 @@ import org.swarmcom.jsynapse.domain.User;
 import org.swarmcom.jsynapse.service.user.UserService;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import static java.lang.String.format;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -34,6 +35,7 @@ import static org.swarmcom.jsynapse.controller.JsynapseApi.CLIENT_V1_API;
 @RequestMapping(value = CLIENT_V1_API)
 public class UserRestApi {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRestApi.class);
+    private static final String ACCESS_TOKEN = "access_token";
     private final UserService userService;
 
     @Inject
@@ -43,25 +45,29 @@ public class UserRestApi {
 
     @JsonView(User.DisplayNameSummary.class)
     @RequestMapping(value = "/profile/{userId}/displayname", method = GET)
-    public @ResponseBody User getDisplayName(@PathVariable String userId) {
-        return userService.findUserById(userId);
+    public @ResponseBody User getDisplayName(@PathVariable String userId, HttpServletRequest request) {
+        String accessToken = request.getParameter(ACCESS_TOKEN);
+        return userService.findLoggedUserById(userId, accessToken);
     }
 
     @RequestMapping(value = "/profile/{userId}/displayname", method = PUT)
-    public void setDisplayName(@PathVariable String userId, @RequestBody final User user) {
+    public void setDisplayName(@PathVariable String userId, @RequestBody final User user, HttpServletRequest request) {
         LOGGER.debug(format("Save display name %s for user id %s", user.getDisplayName(), userId));
-        userService.saveDisplayName(userId, user.getDisplayName());
+        String accessToken = request.getParameter(ACCESS_TOKEN);
+        userService.saveDisplayName(userId, user.getDisplayName(), accessToken);
     }
 
     @JsonView(User.AvatarUrlSummary.class)
     @RequestMapping(value = "/profile/{userId}/avatar_url", method = GET)
-    public @ResponseBody User getAvatarUrl(@PathVariable String userId) {
-        return userService.findUserById(userId);
+    public @ResponseBody User getAvatarUrl(@PathVariable String userId, HttpServletRequest request) {
+        String accessToken = request.getParameter(ACCESS_TOKEN);
+        return userService.findLoggedUserById(userId, accessToken);
     }
 
     @RequestMapping(value = "/profile/{userId}/avatar_url", method = PUT)
-    public void setAvatarUrl(@PathVariable String userId, @RequestBody final User user) {
+    public void setAvatarUrl(@PathVariable String userId, @RequestBody final User user, HttpServletRequest request) {
         LOGGER.debug(format("Save avatar url %s for user id %s", user.getAvatarUrl(), userId));
-        userService.saveAvatarUrl(userId, user.getAvatarUrl());
+        String accessToken = request.getParameter(ACCESS_TOKEN);
+        userService.saveAvatarUrl(userId, user.getAvatarUrl(), accessToken);
     }
 }
