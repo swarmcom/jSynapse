@@ -22,16 +22,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.swarmcom.jsynapse.domain.AccessToken;
 import org.swarmcom.jsynapse.domain.Authentication.AuthenticationInfo;
 import org.swarmcom.jsynapse.domain.Authentication.AuthenticationResult;
 import org.swarmcom.jsynapse.domain.Authentication.AuthenticationSubmission;
 import org.swarmcom.jsynapse.domain.User;
+import org.swarmcom.jsynapse.service.accesstoken.AccessTokenService;
 import org.swarmcom.jsynapse.service.exception.InvalidRequestException;
 import org.swarmcom.jsynapse.service.authentication.AuthenticationProvider;
 import org.swarmcom.jsynapse.service.user.UserService;
 import org.swarmcom.jsynapse.service.user.UserUtils;
 
 import javax.inject.Inject;
+
+import java.util.Date;
 
 import static org.swarmcom.jsynapse.service.authentication.recaptcha.RecaptchaInfo.*;
 import static java.lang.String.format;
@@ -42,13 +46,15 @@ public class RecaptchaProvider implements AuthenticationProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(RecaptchaProvider.class);
 
     private final UserService userService;
+    private final AccessTokenService accessTokenService;
     private final UserUtils userUtils;
 
     private @Value("${recaptcha.private.key:null}") String recapthaPrivateKey;
 
     @Inject
-    public RecaptchaProvider(final UserService userService, final UserUtils userUtils) {
+    public RecaptchaProvider(final UserService userService, final AccessTokenService accessTokenService, final UserUtils userUtils) {
         this.userService = userService;
+        this.accessTokenService = accessTokenService;
         this.userUtils = userUtils;
     }
 
@@ -61,15 +67,23 @@ public class RecaptchaProvider implements AuthenticationProvider {
     public AuthenticationResult register(AuthenticationSubmission registration) {
         validateRecaptcha(registration);
         // TODO throw register error if not a valid request
-        User user = new User("user", "password");
+        String userId = userUtils.generateUserId("user");
+        User user = new User(userId, "password");
         userService.createUser(user);
-        return new AuthenticationResult("userid", userUtils.generateAccessToken());
+        String token = userUtils.generateAccessToken();
+        AccessToken accessToken = new AccessToken(userId, token, new Date());
+        accessTokenService.createToken(accessToken);
+        return new AuthenticationResult(userId, token);
     }
 
     @Override
     public AuthenticationResult login(AuthenticationSubmission login) {
         validateRecaptcha(login);
-        return new AuthenticationResult("userid", userUtils.generateAccessToken());
+        String userId = userUtils.generateUserId("user");
+        String token = userUtils.generateAccessToken();
+        AccessToken accessToken = new AccessToken(userId, token, new Date());
+        accessTokenService.createToken(accessToken);
+        return new AuthenticationResult(userId, token);
     }
 
     public void validateRecaptcha(AuthenticationSubmission registration) {
