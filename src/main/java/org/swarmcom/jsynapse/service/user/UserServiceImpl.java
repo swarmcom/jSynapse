@@ -22,10 +22,13 @@ import org.swarmcom.jsynapse.dao.UserRepository;
 import org.swarmcom.jsynapse.domain.User;
 import org.swarmcom.jsynapse.service.exception.EntityAlreadyExistsException;
 import org.swarmcom.jsynapse.service.exception.EntityNotFoundException;
+import org.swarmcom.jsynapse.service.exception.InvalidRequestException;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import static java.lang.String.format;
 
 @Service
 @Validated
@@ -54,5 +57,15 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException("User not found");
         }
         return user;
+    }
+
+    @Override
+    public void saveDisplayName(String userId, String displayName) {
+        if (null == displayName) {
+            throw new InvalidRequestException(format("Display name to set is null"));
+        }
+        User user = findUserById(userId);
+        user.setDisplayName(displayName);
+        repository.save(user);
     }
 }

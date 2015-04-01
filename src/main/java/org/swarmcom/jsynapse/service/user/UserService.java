@@ -22,4 +22,6 @@ public interface UserService {
     public User createUser(User user);
 
     public User findUserById(String userId);
+
+    public void saveDisplayName(String userId, String displayName);
 }

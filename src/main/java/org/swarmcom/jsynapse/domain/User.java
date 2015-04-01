@@ -17,6 +17,7 @@
 package org.swarmcom.jsynapse.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.annotation.Id;
 
 public class User {
@@ -28,6 +29,16 @@ public class User {
     @JsonProperty("password")
     String hashedPassword;
 
+    @JsonProperty("avatar_url")
+    String avatarUrl;
+
+    @JsonView(DisplayNameSummary.class)
+    @JsonProperty("displayname")
+    String displayName;
+
+    public User() {
+
+    }
     public User(String userId, String hashedPassword) {
         this.userId = userId;
         this.hashedPassword = hashedPassword;
@@ -45,7 +56,25 @@ public class User {
         return hashedPassword;
     }
 
-    public void getHashedPassword(String password) {
+    public void setHashedPassword(String password) {
         this.hashedPassword = password;
     }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public interface DisplayNameSummary {}
 }
