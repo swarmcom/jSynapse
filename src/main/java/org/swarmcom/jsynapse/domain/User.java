@@ -29,6 +29,7 @@ public class User {
     @JsonProperty("password")
     String hashedPassword;
 
+    @JsonView(AvatarUrlSummary.class)
     @JsonProperty("avatar_url")
     String avatarUrl;
 
@@ -37,8 +38,8 @@ public class User {
     String displayName;
 
     public User() {
-
     }
+
     public User(String userId, String hashedPassword) {
         this.userId = userId;
         this.hashedPassword = hashedPassword;
@@ -77,4 +78,6 @@ public class User {
     }
 
     public interface DisplayNameSummary {}
+
+    public interface AvatarUrlSummary {}
 }

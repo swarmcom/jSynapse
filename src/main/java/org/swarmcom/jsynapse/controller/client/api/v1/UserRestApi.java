@@ -52,4 +52,16 @@ public class UserRestApi {
         LOGGER.debug(format("Save display name %s for user id %s", user.getDisplayName(), userId));
         userService.saveDisplayName(userId, user.getDisplayName());
     }
+
+    @JsonView(User.AvatarUrlSummary.class)
+    @RequestMapping(value = "/profile/{userId}/avatar_url", method = GET)
+    public @ResponseBody User getAvatarUrl(@PathVariable String userId) {
+        return userService.findUserById(userId);
+    }
+
+    @RequestMapping(value = "/profile/{userId}/avatar_url", method = PUT)
+    public void setAvatarUrl(@PathVariable String userId, @RequestBody final User user) {
+        LOGGER.debug(format("Save avatar url %s for user id %s", user.getAvatarUrl(), userId));
+        userService.saveAvatarUrl(userId, user.getAvatarUrl());
+    }
 }

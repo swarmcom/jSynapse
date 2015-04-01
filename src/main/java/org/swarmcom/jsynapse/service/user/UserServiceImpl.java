@@ -62,10 +62,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveDisplayName(String userId, String displayName) {
         if (null == displayName) {
-            throw new InvalidRequestException(format("Display name to set is null"));
+            throw new InvalidRequestException("Display name to set is null");
         }
         User user = findUserById(userId);
         user.setDisplayName(displayName);
+        repository.save(user);
+    }
+
+    @Override
+    public void saveAvatarUrl(String userId, String avatarUrl) {
+        if (null == avatarUrl) {
+            throw new InvalidRequestException ("Avatar url to set is null");
+        }
+        User user = findUserById(userId);
+        user.setAvatarUrl(avatarUrl);
         repository.save(user);
     }
 }
