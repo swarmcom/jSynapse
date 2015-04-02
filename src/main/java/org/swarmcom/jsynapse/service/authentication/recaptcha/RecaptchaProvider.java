@@ -72,7 +72,7 @@ public class RecaptchaProvider implements AuthenticationProvider {
         userService.createUser(user);
         String token = userUtils.generateAccessToken();
         AccessToken accessToken = new AccessToken(userId, token, new Date());
-        accessTokenService.createToken(accessToken);
+        accessTokenService.createOrUpdateToken(accessToken);
         return new AuthenticationResult(userId, token);
     }
 
@@ -82,7 +82,7 @@ public class RecaptchaProvider implements AuthenticationProvider {
         String userId = userUtils.generateUserId("user");
         String token = userUtils.generateAccessToken();
         AccessToken accessToken = new AccessToken(userId, token, new Date());
-        accessTokenService.createToken(accessToken);
+        accessTokenService.createOrUpdateToken(accessToken);
         return new AuthenticationResult(userId, token);
     }
 

@@ -20,5 +20,6 @@ import org.swarmcom.jsynapse.domain.AccessToken;
 
 public interface AccessTokenService {
     public boolean isTokenAssigned(String userId, String token);
-    public AccessToken createToken(AccessToken accessToken);
+
+    public AccessToken createOrUpdateToken(AccessToken accessToken);
 }

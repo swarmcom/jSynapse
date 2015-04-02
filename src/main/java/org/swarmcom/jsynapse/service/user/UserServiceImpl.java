@@ -19,6 +19,7 @@ package org.swarmcom.jsynapse.service.user;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.swarmcom.jsynapse.dao.UserRepository;
+import org.swarmcom.jsynapse.domain.AccessToken;
 import org.swarmcom.jsynapse.domain.User;
 import org.swarmcom.jsynapse.service.accesstoken.AccessTokenService;
 import org.swarmcom.jsynapse.service.exception.EntityAlreadyExistsException;
@@ -30,7 +31,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import static java.lang.String.format;
+import java.util.Date;
 
 @Service
 @Validated
@@ -66,7 +67,9 @@ public class UserServiceImpl implements UserService {
     public User findLoggedUserById(String userId, String accessToken) {
         boolean assigned = accessTokenService.isTokenAssigned(userId, accessToken);
         if (assigned) {
-            return findUserById(userId);
+            User user = findUserById(userId);
+            accessTokenService.createOrUpdateToken(new AccessToken(userId, accessToken, new Date()));
+            return user;
         }
         throw new TokenNotFoundException(String.format("User with id %s and token %s not found", userId, accessToken));
     }
@@ -79,6 +82,7 @@ public class UserServiceImpl implements UserService {
         User user = findLoggedUserById(userId, accessToken);
         user.setDisplayName(displayName);
         repository.save(user);
+        accessTokenService.createOrUpdateToken(new AccessToken(userId, accessToken, new Date()));
     }
 
     @Override
@@ -89,5 +93,6 @@ public class UserServiceImpl implements UserService {
         User user = findLoggedUserById(userId, accessToken);
         user.setAvatarUrl(avatarUrl);
         repository.save(user);
+        accessTokenService.createOrUpdateToken(new AccessToken(userId, accessToken, new Date()));
     }
 }

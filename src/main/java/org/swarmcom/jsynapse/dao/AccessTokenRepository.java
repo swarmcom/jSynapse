@@ -22,4 +22,6 @@ import org.swarmcom.jsynapse.domain.AccessToken;
 
 public interface AccessTokenRepository extends MongoRepository<AccessToken, String> {
     AccessToken findByToken(String token);
+
+    AccessToken findByUserId(String userId);
 }

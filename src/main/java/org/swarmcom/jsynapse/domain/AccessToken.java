@@ -18,8 +18,8 @@ package org.swarmcom.jsynapse.domain;
 
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class AccessToken {
@@ -32,7 +32,7 @@ public class AccessToken {
 
     Date lastUsed;
 
-    public AccessToken(String userId, String token, Date lastUsed) {
+    public AccessToken(@NotNull String userId, @NotNull String token, @NotNull Date lastUsed) {
         this.userId = userId;
         this.token = token;
         this.lastUsed = lastUsed;
