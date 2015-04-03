@@ -17,6 +17,7 @@
 package org.swarmcom.jsynapse.service.accesstoken;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
@@ -25,6 +26,7 @@ import org.springframework.validation.annotation.Validated;
 import org.swarmcom.jsynapse.dao.AccessTokenRepository;
 import org.swarmcom.jsynapse.domain.AccessToken;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -36,12 +38,20 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     private AccessTokenRepository accessTokenRepository;
     private MongoTemplate mongoTemplate;
 
+    @Value("${token.expire.seconds:300}")
+    private long expire;
+
     @Inject
     public AccessTokenServiceImpl(AccessTokenRepository accessTokenRepository, MongoTemplate mongoTemplate) {
         this.accessTokenRepository = accessTokenRepository;
         this.mongoTemplate = mongoTemplate;
+
+    }
+
+    @PostConstruct
+    public void init() {
         this.mongoTemplate.indexOps(AccessToken.class).
-                ensureIndex(new Index().on("lastUsed", Sort.Direction.ASC).expire(40, TimeUnit.SECONDS));
+                ensureIndex(new Index().on("lastUsed", Sort.Direction.ASC).expire(expire, TimeUnit.SECONDS));
     }
 
     @Override
