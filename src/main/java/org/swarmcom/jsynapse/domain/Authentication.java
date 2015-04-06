@@ -23,10 +23,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.swarmcom.jsynapse.JSynapseServer.DOMAIN;
-import static org.apache.commons.lang3.StringUtils.join;
-import static org.apache.commons.lang3.RandomStringUtils.random;
-
 public class Authentication {
 
     public static class AuthenticationInfo {

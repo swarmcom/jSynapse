@@ -27,6 +27,7 @@ import static org.springframework.http.HttpStatus.*;
 public class JsynapseApi {
 
     public static final String CLIENT_V1_API = "/_matrix/client/api/v1";
+    public static final String CONTENT_V1_API = "/_matrix/media/v1";
 
     @ExceptionHandler
     @ResponseStatus(NOT_FOUND)
