@@ -38,14 +38,6 @@ public class MessageServiceTest extends TestBase {
     @Autowired
     RoomService roomService;
 
-    @Autowired
-    MongoTemplate mongoTemplate;
-
-    @After
-    public void after() throws Exception {
-        mongoTemplate.getDb().dropDatabase();
-    }
-
     @Test
     public void getRoomMessages() {
         //create room

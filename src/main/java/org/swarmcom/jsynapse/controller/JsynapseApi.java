@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.swarmcom.jsynapse.service.exception.EntityAlreadyExistsException;
 import org.swarmcom.jsynapse.service.exception.EntityNotFoundException;
 import org.swarmcom.jsynapse.service.exception.InvalidRequestException;
+import org.swarmcom.jsynapse.service.exception.TokenNotFoundException;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -44,6 +45,12 @@ public class JsynapseApi {
     @ExceptionHandler
     @ResponseStatus(BAD_REQUEST)
     public String handleInvalidRequest(InvalidRequestException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(FORBIDDEN)
+    public String handleTokenNotFound(TokenNotFoundException ex) {
         return ex.getMessage();
     }
 }

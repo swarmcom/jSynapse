@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import org.swarmcom.jsynapse.controller.JsynapseApi;
 import org.swarmcom.jsynapse.domain.User;
 import org.swarmcom.jsynapse.service.user.UserService;
 
@@ -33,7 +34,7 @@ import static org.swarmcom.jsynapse.controller.JsynapseApi.CLIENT_V1_API;
 
 @RestController
 @RequestMapping(value = CLIENT_V1_API)
-public class UserRestApi {
+public class UserRestApi extends JsynapseApi {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRestApi.class);
     private static final String ACCESS_TOKEN = "access_token";
     private final UserService userService;
