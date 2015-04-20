@@ -25,11 +25,11 @@ public interface RoomService {
 
     Room saveAlias(String roomId, String alias);
 
-    void deleteAlias(String roomId, String alias);
+    Room deleteAlias(String roomId, String alias);
 
     Room findRoomById(String roomId);
 
-    void saveTopic(String roomId, String topic);
+    Room saveTopic(String roomId, String topic);
 
-    void saveName(String roomId, String name);
+    Room saveName(String roomId, String name);
 }

@@ -71,10 +71,10 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void deleteAlias(String roomId, String alias) {
+    public Room deleteAlias(String roomId, String alias) {
         Room room = findRoomById(roomId);
         room.setAlias("");
-        roomRepository.save(room);
+        return roomRepository.save(room);
     }
 
     @Override
@@ -87,22 +87,22 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void saveTopic(String roomId, String topic) {
+    public Room saveTopic(String roomId, String topic) {
         if (null == topic) {
             throw new InvalidRequestException(format("Topic to set is null"));
         }
         Room room = findRoomById(roomId);
         room.setTopic(topic);
-        roomRepository.save(room);
+        return roomRepository.save(room);
     }
 
     @Override
-    public void saveName(String roomId, String name) {
+    public Room saveName(String roomId, String name) {
         if (null == name) {
             throw new InvalidRequestException(format("Name to set is null"));
         }
         Room room = findRoomById(roomId);
         room.setName(name);
-        roomRepository.save(room);
+        return roomRepository.save(room);
     }
 }
