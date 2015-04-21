@@ -14,14 +14,12 @@
  * limitations under the License.
  *
 */
-package org.swarmcom.jsynapse.dao;
+package org.swarmcom.jsynapse.service.presence;
 
-import org.swarmcom.jsynapse.service.content.ContentResource;
+import org.swarmcom.jsynapse.domain.Presence;
 
-import java.io.InputStream;
+public interface PresenceService {
+    void savePresence(String userId, Presence presence);
 
-public interface ContentRepository {
-    String upload(InputStream content, String fileName, String contentType);
-
-    ContentResource download(String mediaId);
+    Presence getUserPresence(String userId);
 }

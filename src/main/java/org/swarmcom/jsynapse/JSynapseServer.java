@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 import static org.springframework.boot.SpringApplication.run;
 import static org.apache.commons.lang3.StringUtils.substringAfter;
@@ -28,6 +29,7 @@ import static org.apache.commons.lang3.StringUtils.substringAfter;
 @SpringBootApplication
 @Configuration
 @PropertySource(value = "classpath:jsynapse.properties", ignoreResourceNotFound = true)
+@EnableMongoAuditing
 public class JSynapseServer {
     public static String DOMAIN = "swarmcom.org";
 

@@ -16,12 +16,9 @@
 */
 package org.swarmcom.jsynapse.dao;
 
-import org.swarmcom.jsynapse.service.content.ContentResource;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.swarmcom.jsynapse.domain.Presence;
 
-import java.io.InputStream;
-
-public interface ContentRepository {
-    String upload(InputStream content, String fileName, String contentType);
-
-    ContentResource download(String mediaId);
+public interface PresenceRepository extends MongoRepository<Presence, String> {
+    Presence findOneByUserId(String userId);
 }

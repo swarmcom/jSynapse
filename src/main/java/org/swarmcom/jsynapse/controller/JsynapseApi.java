@@ -23,6 +23,8 @@ import org.swarmcom.jsynapse.service.exception.EntityNotFoundException;
 import org.swarmcom.jsynapse.service.exception.InvalidRequestException;
 import org.swarmcom.jsynapse.service.exception.TokenNotFoundException;
 
+import javax.validation.ValidationException;
+
 import static org.springframework.http.HttpStatus.*;
 
 public class JsynapseApi {
@@ -51,6 +53,12 @@ public class JsynapseApi {
     @ExceptionHandler
     @ResponseStatus(FORBIDDEN)
     public String handleTokenNotFound(TokenNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(BAD_REQUEST)
+    public String handleValidationException(ValidationException ex) {
         return ex.getMessage();
     }
 }
