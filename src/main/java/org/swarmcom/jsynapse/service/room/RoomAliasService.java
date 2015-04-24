@@ -14,11 +14,17 @@
  * limitations under the License.
  *
 */
-package org.swarmcom.jsynapse.dao;
+package org.swarmcom.jsynapse.service.room;
 
-import org.swarmcom.jsynapse.domain.Room;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.swarmcom.jsynapse.domain.RoomAlias;
 
-public interface RoomRepository extends MongoRepository<Room, String> {
-    Room findRoomByRoomId(String roomId);
+import java.util.List;
+
+public interface RoomAliasService {
+
+    RoomAlias createAlias(String roomId, String alias);
+
+    void deleteAlias(String alias);
+
+    public RoomAlias.AliasServers findByAlias(String alias);
 }

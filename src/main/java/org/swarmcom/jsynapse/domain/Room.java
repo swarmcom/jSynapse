@@ -52,10 +52,6 @@ public class Room {
     @JsonProperty
     List<String> invite;
 
-    @JsonProperty
-    @JsonView(DirectorySummary.class)
-    List<String> servers = new ArrayList<>();
-
     public Room() {
     }
 

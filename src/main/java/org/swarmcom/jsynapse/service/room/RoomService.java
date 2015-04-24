@@ -23,9 +23,7 @@ public interface RoomService {
 
     Room findRoomByAlias(String alias);
 
-    Room saveAlias(String roomId, String alias);
-
-    Room deleteAlias(String roomId, String alias);
+    void deleteAlias(String roomId, String alias);
 
     Room findRoomById(String roomId);
 

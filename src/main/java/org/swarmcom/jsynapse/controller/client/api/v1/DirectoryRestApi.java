@@ -21,9 +21,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.swarmcom.jsynapse.controller.JsynapseApi;
 import org.swarmcom.jsynapse.domain.Room;
+import org.swarmcom.jsynapse.domain.RoomAlias;
+import org.swarmcom.jsynapse.service.room.RoomAliasService;
 import org.swarmcom.jsynapse.service.room.RoomService;
-
 import javax.inject.Inject;
+
+import static org.swarmcom.jsynapse.domain.RoomAlias.AliasServers;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static java.lang.String.format;
 import static org.swarmcom.jsynapse.controller.JsynapseApi.CLIENT_V1_API;
@@ -33,24 +36,24 @@ import static org.swarmcom.jsynapse.controller.JsynapseApi.CLIENT_V1_API;
 public class DirectoryRestApi extends JsynapseApi {
     private static final Logger LOGGER = LoggerFactory.getLogger(DirectoryRestApi.class);
     private final RoomService roomService;
+    private final RoomAliasService roomAliasService;
 
     @Inject
-    public DirectoryRestApi(final RoomService roomService) {
+    public DirectoryRestApi(final RoomService roomService, final RoomAliasService roomAliasService) {
         this.roomService = roomService;
+        this.roomAliasService = roomAliasService;
     }
 
-    @JsonView(Room.DirectorySummary.class)
     @RequestMapping(method = GET)
-    public @ResponseBody Room getRoomByAlias(@PathVariable String roomAlias) {
+    public @ResponseBody AliasServers getRoomByAlias(@PathVariable String roomAlias) {
         LOGGER.debug(format("Get room with alias %s", roomAlias));
-        return roomService.findRoomByAlias(roomAlias);
+        return roomAliasService.findByAlias(roomAlias);
     }
 
-    @JsonView(Room.DirectorySummary.class)
     @RequestMapping(method = PUT)
-    public @ResponseBody Room saveRoomAlias(@PathVariable String roomAlias, @RequestBody final Room room) {
+    public @ResponseBody RoomAlias saveRoomAlias(@PathVariable String roomAlias, @RequestBody final Room room) {
         LOGGER.debug(format("PUT alias %s for room id %s", roomAlias, room.getRoomId()));
-        return roomService.saveAlias(room.getRoomId(), roomAlias);
+        return roomAliasService.createAlias(room.getRoomId(), roomAlias);
     }
 
     @RequestMapping(method = DELETE)

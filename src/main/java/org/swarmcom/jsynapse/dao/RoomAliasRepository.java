@@ -16,9 +16,16 @@
 */
 package org.swarmcom.jsynapse.dao;
 
-import org.swarmcom.jsynapse.domain.Room;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.swarmcom.jsynapse.domain.RoomAlias;
 
-public interface RoomRepository extends MongoRepository<Room, String> {
-    Room findRoomByRoomId(String roomId);
+import java.util.List;
+
+public interface RoomAliasRepository extends MongoRepository<RoomAlias, String> {
+
+    RoomAlias findByAliasAndServer(String alias, String server);
+
+    List<RoomAlias> findByAlias(String alias);
+
+    List<RoomAlias> findByRoomId(String roomId);
 }

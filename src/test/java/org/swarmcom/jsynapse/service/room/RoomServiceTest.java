@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.swarmcom.jsynapse.TestBase;
 import org.swarmcom.jsynapse.domain.Room;
+import org.swarmcom.jsynapse.domain.RoomAlias;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -29,6 +30,7 @@ import static org.mockito.Mockito.when;
 public class RoomServiceTest extends TestBase {
     @Autowired
     RoomServiceImpl roomService;
+
     Room createdRoom;
 
     @Before
@@ -55,15 +57,11 @@ public class RoomServiceTest extends TestBase {
         assertEquals("Room alias", foundRoom.getAlias());
     }
 
-    @Test
-    public void saveAlias() {
-        Room room = roomService.saveAlias("abcdef0123456789:swarmcom.org", "New Room alias");
-        assertEquals("New Room alias", room.getAlias());
-    }
 
     @Test
     public void deleteAlias() {
-        Room room = roomService.deleteAlias("abcdef0123456789:swarmcom.org", "New Room alias");
+        roomService.deleteAlias("abcdef0123456789:swarmcom.org", "Room alias");
+        Room room = roomService.findRoomById("abcdef0123456789:swarmcom.org");
         assertEquals("", room.getAlias());
     }
 
