@@ -22,6 +22,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.swarmcom.jsynapse.controller.JsynapseApi;
 import org.swarmcom.jsynapse.domain.Room;
+import org.swarmcom.jsynapse.domain.RoomAlias;
+import org.swarmcom.jsynapse.service.room.RoomAliasService;
 import org.swarmcom.jsynapse.service.room.RoomService;
 
 import javax.inject.Inject;
@@ -37,10 +39,12 @@ import static org.swarmcom.jsynapse.controller.JsynapseApi.CLIENT_V1_API;
 public class RoomRestApi extends JsynapseApi {
     private static final Logger LOGGER = LoggerFactory.getLogger(RoomRestApi.class);
     private final RoomService roomService;
+    private final RoomAliasService roomAliasService;
 
     @Inject
-    public RoomRestApi(final RoomService roomService) {
+    public RoomRestApi(final RoomService roomService, final RoomAliasService rAService) {
         this.roomService = roomService;
+        roomAliasService = rAService;
     }
 
     @JsonView(Room.CreateSummary.class)
@@ -72,6 +76,12 @@ public class RoomRestApi extends JsynapseApi {
     public void setName(@PathVariable String roomId, @RequestBody final Room room) {
         LOGGER.debug(format("Save name %s for room id %s", room.getName(), roomId));
         roomService.saveName(roomId, room.getName());
+    }
+
+    @RequestMapping(value = "/rooms/{roomId}/state/m.room.aliases", method = GET)
+    public @ResponseBody RoomAlias.RoomAliases getAliases(@PathVariable String roomId) {
+        LOGGER.debug(format("Get aliases for room id %s", roomId));
+        return roomAliasService.findByRoomId(roomId);
     }
 
 }

@@ -65,4 +65,9 @@ public class RoomAliasServiceImpl implements RoomAliasService {
 
         return new RoomAlias.AliasServers(roomId, roomAliases);
     }
+
+    public RoomAlias.RoomAliases findByRoomId(String roomId) {
+        List<RoomAlias> aliases = roomAliasRepository.findByRoomId(roomId);
+        return new RoomAlias.RoomAliases(aliases);
+    }
 }

@@ -58,12 +58,17 @@ public class RoomAlias {
     }
 
     public static class RoomAliases {
+        @JsonProperty
         List<String> aliases = new LinkedList<>();
 
         public RoomAliases(List<RoomAlias> roomAliases) {
             for (RoomAlias roomAlias : roomAliases) {
                 aliases.add(StringUtils.join(PREFIX, roomAlias.getAlias(), SEPARATOR, roomAlias.getServer()));
             }
+        }
+
+        public List<String> getAliases() {
+            return aliases;
         }
     }
 

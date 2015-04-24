@@ -15,7 +15,6 @@ package org.swarmcom.jsynapse.controller.client.api.v1;
  * limitations under the License.
  *
 */
-import com.fasterxml.jackson.annotation.JsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;

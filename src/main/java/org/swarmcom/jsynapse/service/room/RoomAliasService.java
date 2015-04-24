@@ -27,4 +27,6 @@ public interface RoomAliasService {
     void deleteAlias(String alias);
 
     public RoomAlias.AliasServers findByAlias(String alias);
+
+    public RoomAlias.RoomAliases findByRoomId(String roomId);
 }

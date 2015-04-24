@@ -51,7 +51,10 @@ public class RoomServiceImpl implements RoomService {
     public Room createRoom(@NotNull @Valid final Room room) {
         String roomId = utils.generateRoomId();
         room.setRoomId(roomId);
-        roomAliasService.createAlias(roomId, room.getAlias());
+        String initialAlias = room.getAlias();
+        if (!StringUtils.isEmpty(initialAlias)) {
+            roomAliasService.createAlias(roomId, room.getAlias());
+        }
         Room createdRoom = roomRepository.save(room);
         if (null == createdRoom) {
             throw new EntityAlreadyExistsException(format("Failed to create room %s", room.toString()));

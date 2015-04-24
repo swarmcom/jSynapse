@@ -49,6 +49,9 @@ public class RoomRestApiTest extends TestBase {
     @Value("classpath:room/PutNameRoom.json")
     private Resource putNameRoomJSON;
 
+    @Value("classpath:room/GetRoomAliases.json")
+    private Resource getRoomAliasesJSON;
+
     @Autowired
     RoomService roomService;
 
@@ -69,6 +72,7 @@ public class RoomRestApiTest extends TestBase {
         putAndCheckStatus("/_matrix/client/api/v1/rooms/!IhCdHhojjFFBLrJKSn:swarmcom.org/state/m.room.name",
                 putNameRoomJSON, HttpStatus.OK);
         getAndCompareResult("/_matrix/client/api/v1/rooms/!IhCdHhojjFFBLrJKSn:swarmcom.org/state/m.room.name", getNameRoomJSON);
+        getAndCompareResult("/_matrix/client/api/v1/rooms/!IhCdHhojjFFBLrJKSn:swarmcom.org/state/m.room.aliases", getRoomAliasesJSON);
     }
 
 }
